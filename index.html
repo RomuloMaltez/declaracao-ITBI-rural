@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Declaração de Aptidão Agrícola — ITBI Rural | Porto Velho/RO</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-pv: #1a4731;
+    --verde-claro: #2d6a4f;
+    --verde-suave: #e8f5ee;
+    --dourado: #c9973a;
+    --dourado-claro: #f9efd7;
+    --cinza-escuro: #1c1c1c;
+    --cinza-meio: #4a4a4a;
+    --cinza-leve: #f5f5f3;
+    --branco: #fdfdf9;
+    --borda: #d6d6ce;
+    --erro: #c0392b;
+    --sucesso: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    color: var(--cinza-escuro);
+    background: var(--cinza-leve);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ─── CABEÇALHO ─── */
+  header {
+    background: var(--verde-pv);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 100%;
+    background: linear-gradient(135deg, transparent 40%, rgba(201,151,58,0.15) 100%);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .brasao-placeholder {
+    width: 64px; height: 64px;
+    border: 2px solid rgba(201,151,58,0.6);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 28px;
+  }
+  .header-texto { flex: 1; }
+  .header-orgao {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 4px;
+  }
+  .header-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+  }
+  .header-subtitulo {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+  .header-badge {
+    background: var(--dourado);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ─── BARRA DE PROGRESSO ─── */
+  .progress-bar-wrap {
+    background: rgba(0,0,0,0.2);
+    height: 4px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--dourado);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ─── PASSOS ─── */
+  .steps-nav {
+    background: rgba(0,0,0,0.15);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .steps-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+  }
+  .step-tab {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    border-bottom: 3px solid transparent;
+    cursor: default;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .step-tab.active {
+    color: white;
+    border-bottom-color: var(--dourado);
+  }
+  .step-tab.done {
+    color: rgba(255,255,255,0.65);
+    border-bottom-color: rgba(201,151,58,0.3);
+  }
+  .step-num {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    font-size: 10px;
+    line-height: 18px;
+    text-align: center;
+    margin-right: 6px;
+    transition: all 0.3s;
+  }
+  .step-tab.active .step-num {
+    background: var(--dourado);
+  }
+  .step-tab.done .step-num {
+    background: var(--sucesso);
+  }
+
+  /* ─── CONTAINER PRINCIPAL ─── */
+  main {
+    max-width: 900px;
+    margin: 36px auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ─── SEÇÕES ─── */
+  .section-card {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    animation: fadeSlide 0.4s ease;
+  }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section-header {
+    background: var(--verde-pv);
+    color: white;
+    padding: 14px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-header .icon {
+    font-size: 16px;
+    opacity: 0.8;
+  }
+  .section-body { padding: 28px 28px; }
+
+  /* ─── AVISO LEGAL ─── */
+  .aviso-legal {
+    background: var(--dourado-claro);
+    border-left: 4px solid var(--dourado);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--cinza-meio);
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+  .aviso-legal strong { color: var(--cinza-escuro); }
+
+  /* ─── GRUPOS DE CAMPOS ─── */
+  .form-grid { display: grid; gap: 18px; }
+  .form-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  @media (max-width: 640px) {
+    .form-grid.cols-2, .form-grid.cols-3 { grid-template-columns: 1fr; }
+    .steps-inner { flex-wrap: wrap; }
+    .header-inner { flex-direction: column; text-align: center; }
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--verde-pv);
+  }
+  label .req { color: var(--erro); margin-left: 2px; }
+  label .opcional { color: var(--cinza-meio); font-weight: 300; text-transform: none; letter-spacing: 0; font-size: 11px; }
+
+  input[type=text], input[type=number], input[type=date], input[type=email], select, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--borda);
+    border-radius: 4px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    color: var(--cinza-escuro);
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  input[type=text]:focus, input[type=number]:focus, input[type=date]:focus,
+  input[type=email]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--verde-claro);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+  }
+  input.invalid, select.invalid { border-color: var(--erro) !important; }
+  .field-error { font-size: 12px; color: var(--erro); display: none; }
+  .field-error.show { display: block; }
+
+  /* ─── TABELA DE APTIDÃO ─── */
+  .aptidao-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .aptidao-table thead tr {
+    background: var(--verde-pv);
+    color: white;
+  }
+  .aptidao-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .aptidao-table th:last-child { text-align: right; }
+  .aptidao-table tbody tr { border-bottom: 1px solid var(--borda); transition: background 0.15s; }
+  .aptidao-table tbody tr:hover { background: var(--verde-suave); }
+  .aptidao-table tbody tr:last-child { border-bottom: none; }
+  .aptidao-table td { padding: 14px 16px; vertical-align: middle; }
+  .aptidao-table td:last-child { text-align: right; }
+
+  .cat-label { font-weight: 600; color: var(--cinza-escuro); font-size: 14px; }
+  .cat-desc { font-size: 12px; color: var(--cinza-meio); margin-top: 2px; }
+
+  .area-input {
+    width: 140px;
+    text-align: right;
+    padding: 8px 12px;
+    border: 1.5px solid var(--borda);
+    border-radius: 4px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .area-input:focus {
+    outline: none;
+    border-color: var(--verde-claro);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+  }
+  .area-unit { font-size: 12px; color: var(--cinza-meio); margin-left: 4px; }
+
+  /* ─── TOTALIZADOR ─── */
+  .totalizador {
+    background: var(--verde-suave);
+    border: 1.5px solid var(--verde-claro);
+    border-radius: 5px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  .total-item { text-align: center; }
+  .total-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--verde-pv); }
+  .total-valor { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--verde-pv); margin-top: 4px; }
+  .total-valor.erro-valor { color: var(--erro); }
+  .total-saldo { font-size: 12px; margin-top: 3px; color: var(--cinza-meio); }
+
+  .alerta-area {
+    background: #fdf0f0;
+    border: 1.5px solid var(--erro);
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--erro);
+    margin-top: 10px;
+    display: none;
+  }
+  .alerta-area.show { display: block; }
+
+  /* ─── DECLARAÇÃO FINAL ─── */
+  .declaracao-texto {
+    background: var(--cinza-leve);
+    border: 1px solid var(--borda);
+    border-left: 4px solid var(--verde-pv);
+    border-radius: 4px;
+    padding: 18px 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--cinza-escuro);
+    font-style: italic;
+  }
+  .declaracao-texto strong { font-style: normal; color: var(--verde-pv); }
+
+  .checkbox-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 16px;
+    border: 1.5px solid var(--borda);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .checkbox-wrap:hover { border-color: var(--verde-claro); background: var(--verde-suave); }
+  .checkbox-wrap input[type=checkbox] {
+    width: 18px; height: 18px;
+    accent-color: var(--verde-pv);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .checkbox-label { font-size: 13.5px; line-height: 1.5; cursor: pointer; }
+  .checkbox-label strong { color: var(--verde-pv); }
+
+  /* ─── BOTÕES DE NAVEGAÇÃO ─── */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--verde-pv);
+    color: white;
+    box-shadow: 0 2px 8px rgba(26,71,49,0.25);
+  }
+  .btn-primary:hover { background: var(--verde-claro); box-shadow: 0 4px 12px rgba(26,71,49,0.35); transform: translateY(-1px); }
+  .btn-secondary { background: white; color: var(--verde-pv); border: 1.5px solid var(--verde-pv); }
+  .btn-secondary:hover { background: var(--verde-suave); }
+  .btn-print {
+    background: var(--dourado);
+    color: white;
+    box-shadow: 0 2px 8px rgba(201,151,58,0.3);
+  }
+  .btn-print:hover { background: #b8852d; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* ─── STEPS CONTENT ─── */
+  .step-content { display: none; }
+  .step-content.active { display: block; }
+
+  /* ─── PREVIEW IMPRESSÃO ─── */
+  #preview-section {
+    background: white;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    padding: 40px 50px;
+    margin-bottom: 24px;
+    font-size: 13.5px;
+    line-height: 1.8;
+    display: none;
+  }
+  #preview-section.show { display: block; }
+  .preview-header { text-align: center; margin-bottom: 32px; border-bottom: 2px solid var(--verde-pv); padding-bottom: 20px; }
+  .preview-brasao { font-size: 40px; margin-bottom: 8px; }
+  .preview-orgao { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--cinza-meio); }
+  .preview-titulo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--verde-pv); margin: 8px 0 4px; }
+  .preview-subtitulo { font-size: 12px; color: var(--cinza-meio); }
+  .preview-body { text-align: justify; }
+  .preview-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+  .preview-table th { background: var(--verde-pv); color: white; padding: 8px 12px; text-align: left; }
+  .preview-table td { border: 1px solid #ccc; padding: 7px 12px; }
+  .preview-table tr:nth-child(even) td { background: #f9f9f7; }
+  .preview-footer { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .assinatura-box { border-top: 1px solid #999; padding-top: 8px; text-align: center; font-size: 12px; color: var(--cinza-meio); }
+  .preview-penas { font-size: 11.5px; color: var(--cinza-meio); border-top: 1px solid var(--borda); margin-top: 28px; padding-top: 14px; }
+
+  /* ─── SUCESSO ─── */
+  .sucesso-banner {
+    background: linear-gradient(135deg, var(--verde-pv), var(--verde-claro));
+    color: white;
+    border-radius: 6px;
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 24px;
+    display: none;
+  }
+  .sucesso-banner.show { display: block; animation: fadeSlide 0.5s ease; }
+  .sucesso-icon { font-size: 48px; margin-bottom: 12px; }
+  .sucesso-titulo { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; }
+  .sucesso-desc { opacity: 0.85; font-size: 14px; }
+  .protocolo-box {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 12px 20px;
+    margin-top: 16px;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .protocolo-num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+
+  /* ─── TOOLTIP ─── */
+  .tooltip-wrap { position: relative; display: inline-block; margin-left: 5px; cursor: help; }
+  .tooltip-icon { width: 16px; height: 16px; background: var(--borda); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--cinza-meio); }
+  .tooltip-text {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cinza-escuro);
+    color: white;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 100;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.4;
+    max-width: 220px;
+    white-space: normal;
+    text-align: left;
+  }
+  .tooltip-wrap:hover .tooltip-text { display: block; }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: white; }
+    header, .steps-nav, .progress-bar-wrap, main > *:not(#preview-section), .nav-buttons { display: none !important; }
+    #preview-section { display: block !important; border: none; padding: 0; margin: 0; box-shadow: none; }
+    .section-card { display: none !important; }
+    .sucesso-banner { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CABEÇALHO -->
+<header>
+  <div class="header-inner">
+    <div class="brasao-placeholder">🌿</div>
+    <div class="header-texto">
+      <div class="header-orgao">Prefeitura Municipal de Porto Velho · Secretaria Municipal de Economia</div>
+      <div class="header-titulo">Declaração de Aptidão Agrícola</div>
+      <div class="header-subtitulo">ITBI — Imóvel Rural · Secretaria Executiva da Receita Municipal</div>
+    </div>
+    <div class="header-badge">ITBI Rural</div>
+  </div>
+
+  <!-- PROGRESSO -->
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- PASSOS -->
+  <div class="steps-nav">
+    <div class="steps-inner">
+      <div class="step-tab active" id="tab-1"><span class="step-num">1</span>Declarante</div>
+      <div class="step-tab" id="tab-2"><span class="step-num">2</span>Imóvel</div>
+      <div class="step-tab" id="tab-3"><span class="step-num">3</span>Aptidão</div>
+      <div class="step-tab" id="tab-4"><span class="step-num">4</span>Revisão</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- STEP 1 — DADOS DO DECLARANTE -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="step-content active" id="step-1">
+
+  <div class="aviso-legal">
+    <strong>Atenção:</strong> Esta declaração será utilizada para fins de apuração do ITBI sobre imóvel rural. O declarante é responsável pelas informações prestadas, sujeitando-se às sanções previstas no art. 299 do Código Penal e nas disposições da Lei Complementar Municipal nº 878/2021.
+  </div>
+
+  <div class="section-card">
+    <div class="section-header"><span class="icon">👤</span> Dados do Declarante (Transmitente / Proprietário)</div>
+    <div class="section-body">
+      <div class="form-grid cols-2">
+        <div class="field-group full">
+          <label>Nome completo <span class="req">*</span></label>
+          <input type="text" id="nome" placeholder="Nome completo do proprietário" />
+          <span class="field-error" id="err-nome">Informe o nome completo.</span>
+        </div>
+        <div class="field-group">
+          <label>CPF <span class="req">*</span></label>
+          <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" />
+          <span class="field-error" id="err-cpf">CPF inválido.</span>
+        </div>
+        <div class="field-group">
+          <label>RG <span class="req">*</span></label>
+          <input type="text" id="rg" placeholder="Número e órgão emissor" />
+          <span class="field-error" id="err-rg">Informe o RG.</span>
+        </div>
+        <div class="field-group">
+          <label>Estado civil <span class="req">*</span></label>
+          <select id="estado-civil">
+            <option value="">Selecione...</option>
+            <option>Solteiro(a)</option>
+            <option>Casado(a)</option>
+            <option>Divorciado(a)</option>
+            <option>Viúvo(a)</option>
+            <option>União estável</option>
+          </select>
+          <span class="field-error" id="err-estado-civil">Selecione o estado civil.</span>
+        </div>
+        <div class="field-group">
+          <label>Profissão / Atividade <span class="req">*</span></label>
+          <input type="text" id="profissao" placeholder="Ex.: agricultor, empresário..." />
+          <span class="field-error" id="err-profissao">Informe a profissão.</span>
+        </div>
+        <div class="field-group">
+          <label>E-mail <span class="opcional">(opcional)</span></label>
+          <input type="email" id="email" placeholder="contato@exemplo.com" />
+        </div>
+        <div class="field-group full">
+          <label>Endereço residencial <span class="req">*</span></label>
+          <input type="text" id="endereco" placeholder="Logradouro, número, bairro, CEP" />
+          <span class="field-error" id="err-endereco">Informe o endereço.</span>
+        </div>
+      </div>
+
+      <!-- CÔNJUGE (condicional) -->
+      <div id="secao-conjuge" style="display:none; margin-top:24px; border-top:1px dashed var(--borda); padding-top:20px;">
+        <div style="font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:var(--cinza-meio); margin-bottom:14px;">📎 Dados do Cônjuge / Companheiro(a)</div>
+        <div class="form-grid cols-2">
+          <div class="field-group full">
+            <label>Nome do cônjuge <span class="req">*</span></label>
+            <input type="text" id="nome-conjuge" placeholder="Nome completo do cônjuge" />
+          </div>
+          <div class="field-group">
+            <label>CPF do cônjuge <span class="req">*</span></label>
+            <input type="text" id="cpf-conjuge" placeholder="000.000.000-00" maxlength="14" />
+          </div>
+          <div class="field-group">
+            <label>RG do cônjuge <span class="req">*</span></label>
+            <input type="text" id="rg-conjuge" placeholder="Número e órgão emissor" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <div style="font-size:13px;color:var(--cinza-meio);">Etapa 1 de 4</div>
+    <button class="btn btn-primary" onclick="irPara(2)">Próximo →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- STEP 2 — DADOS DO IMÓVEL -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="step-content" id="step-2">
+  <div class="section-card">
+    <div class="section-header"><span class="icon">📋</span> Identificação do Imóvel Rural</div>
+    <div class="section-body">
+      <div class="form-grid cols-2">
+        <div class="field-group">
+          <label>
+            Matrícula nº <span class="req">*</span>
+            <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-text">Número da matrícula no Cartório de Registro de Imóveis.</span></span>
+          </label>
+          <input type="text" id="matricula" placeholder="Ex.: 45.678" />
+          <span class="field-error" id="err-matricula">Informe o número da matrícula.</span>
+        </div>
+        <div class="field-group">
+          <label>
+            Cartório (Ofício de RI) <span class="req">*</span>
+          </label>
+          <select id="cartorio">
+            <option value="">Selecione...</option>
+            <option>1º Ofício de Registro de Imóveis</option>
+            <option>2º Ofício de Registro de Imóveis</option>
+            <option>3º Ofício de Registro de Imóveis</option>
+            <option>4º Ofício de Registro de Imóveis</option>
+          </select>
+          <span class="field-error" id="err-cartorio">Selecione o cartório.</span>
+        </div>
+        <div class="field-group full">
+          <label>Denominação / Nome da propriedade <span class="opcional">(opcional)</span></label>
+          <input type="text" id="nome-imovel" placeholder="Ex.: Fazenda Bela Vista, Sítio Esperança..." />
+        </div>
+        <div class="field-group full">
+          <label>Localização / Endereço rural <span class="req">*</span></label>
+          <input type="text" id="loc-imovel" placeholder="Rodovia, linha, zona, comunidade — Município/UF" />
+          <span class="field-error" id="err-loc-imovel">Informe a localização do imóvel.</span>
+        </div>
+        <div class="field-group">
+          <label>
+            Área total registrada (ha)
+            <span class="req">*</span>
+            <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-text">Use o ponto como separador decimal. Ex.: 125.5000</span></span>
+          </label>
+          <input type="number" id="area-total" placeholder="0.0000" step="0.0001" min="0.0001" />
+          <span class="field-error" id="err-area-total">Informe a área total válida.</span>
+        </div>
+        <div class="field-group">
+          <label>Número do CCIR <span class="opcional">(opcional)</span></label>
+          <input type="text" id="ccir" placeholder="Certificado de Cadastro de Imóvel Rural" />
+        </div>
+        <div class="field-group">
+          <label>Número do NIRF / CAFIR <span class="opcional">(opcional)</span></label>
+          <input type="text" id="nirf" placeholder="Cadastro na Receita Federal" />
+        </div>
+        <div class="field-group">
+          <label>Processo ITBI nº <span class="opcional">(opcional)</span></label>
+          <input type="text" id="proc-itbi" placeholder="Número do processo administrativo" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="irPara(1)">← Anterior</button>
+    <button class="btn btn-primary" onclick="irPara(3)">Próximo →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- STEP 3 — APTIDÃO AGRÍCOLA -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="step-content" id="step-3">
+  <div class="section-card">
+    <div class="section-header"><span class="icon">🌾</span> Declaração de Aptidão Agrícola — Uso e Cobertura do Solo</div>
+    <div class="section-body">
+
+      <div class="aviso-legal" style="margin-bottom:20px;">
+        Informe a área, em hectares (ha), correspondente a cada categoria de uso do solo. A <strong>soma das áreas por aptidão deve ser exatamente igual à área total registrada</strong> do imóvel. Campos não utilizados deixe em branco ou com zero.
+      </div>
+
+      <table class="aptidao-table">
+        <thead>
+          <tr>
+            <th>Categoria de Aptidão</th>
+            <th style="text-align:right;">Área utilizada (ha)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="cat-label">🌱 I — Lavoura — Aptidão Boa</div>
+              <div class="cat-desc">Terra apta à cultura temporária ou permanente, sem limitações significativas para a produção sustentável, com nível mínimo de restrições que não reduzem a produtividade ou os benefícios expressivamente e não aumentam os insumos acima de um nível aceitável.</div>
+            </td>
+            <td><input type="number" class="area-input aptidao-campo" id="a1" placeholder="0.0000" step="0.0001" min="0" data-label="I — Lavoura — Aptidão Boa" /><span class="area-unit">ha</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cat-label">🌿 II — Lavoura — Aptidão Regular</div>
+              <div class="cat-desc">Terra apta à cultura temporária ou permanente, que apresenta limitações moderadas para a produção sustentável, que reduzem a produtividade ou os benefícios e elevam a necessidade de insumos para garantir as vantagens globais a serem obtidas com o uso.</div>
+            </td>
+            <td><input type="number" class="area-input aptidao-campo" id="a2" placeholder="0.0000" step="0.0001" min="0" data-label="II — Lavoura — Aptidão Regular" /><span class="area-unit">ha</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cat-label">⚠️ III — Lavoura — Aptidão Restrita</div>
+              <div class="cat-desc">Terra apta à cultura temporária ou permanente, que apresenta limitações fortes para a produção sustentável, que reduzem a produtividade ou os benefícios ou aumentam os insumos necessários, de tal maneira que os custos só seriam justificados marginalmente.</div>
+            </td>
+            <td><input type="number" class="area-input aptidao-campo" id="a3" placeholder="0.0000" step="0.0001" min="0" data-label="III — Lavoura — Aptidão Restrita" /><span class="area-unit">ha</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cat-label">🐄 IV — Pastagem Plantada</div>
+              <div class="cat-desc">Terra inapta à exploração de lavouras temporárias ou permanentes por possuir limitações fortes à produção vegetal sustentável, mas apta a formas menos intensivas de uso, inclusive sob a forma de pastagens plantadas.</div>
+            </td>
+            <td><input type="number" class="area-input aptidao-campo" id="a4" placeholder="0.0000" step="0.0001" min="0" data-label="IV — Pastagem Plantada" /><span class="area-unit">ha</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cat-label">🌳 V — Silvicultura ou Pastagem Natural</div>
+              <div class="cat-desc">Terra inapta aos usos indicados nos incisos I a IV, mas apta a usos menos intensivos.</div>
+            </td>
+            <td><input type="number" class="area-input aptidao-campo" id="a5" placeholder="0.0000" step="0.0001" min="0" data-label="V — Silvicultura ou Pastagem Natural" /><span class="area-unit">ha</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="cat-label">🌊 VI — Preservação da Fauna ou Flora</div>
+              <div class="cat-desc">Terra inapta para os usos indicados nos incisos I a V, em decorrência de restrições ambientais, físicas, sociais ou jurídicas que impossibilitam o uso sustentável, e que, por isso, é indicada para a preservação da flora e da fauna ou para outros usos não agrários.</div>
+            </td>
+            <td><input type="number" class="area-input aptidao-campo" id="a6" placeholder="0.0000" step="0.0001" min="0" data-label="VI — Preservação da Fauna ou Flora" /><span class="area-unit">ha</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TOTALIZADOR -->
+      <div class="totalizador">
+        <div class="total-item">
+          <div class="total-label">Soma Declarada</div>
+          <div class="total-valor" id="tot-declarado">0,0000 ha</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">Área Total do Imóvel</div>
+          <div class="total-valor" id="tot-imovel">— ha</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">Diferença</div>
+          <div class="total-valor" id="tot-saldo">— ha</div>
+          <div class="total-saldo" id="tot-pct"></div>
+        </div>
+      </div>
+
+      <div class="alerta-area" id="alerta-excede">
+        ⚠️ A soma das áreas declaradas (<span id="soma-excede"></span> ha) <strong>excede</strong> a área total do imóvel (<span id="total-excede"></span> ha). A declaração deve cobrir exatamente a área registrada.
+      </div>
+      <div class="alerta-area" id="alerta-incompleto" style="border-color:#e67e22;background:#fdf6ec;color:#a04000;">
+        ℹ️ A soma das áreas (<span id="soma-incompleto"></span> ha) é <strong>inferior</strong> à área total do imóvel (<span id="total-incompleto"></span> ha). Toda a área deve ser declarada por aptidão antes de prosseguir.
+      </div>
+      <div class="alerta-area" id="alerta-vazia" style="border-color:#e67e22;background:#fdf6ec;color:#a04000;">
+        ℹ️ Nenhuma área foi informada. Preencha ao menos uma categoria de aptidão.
+      </div>
+      <div id="alerta-ok" style="display:none;background:#e8f5ee;border:1.5px solid var(--sucesso);border-radius:4px;padding:10px 16px;font-size:13px;color:#1a5c38;margin-top:10px;">
+        ✅ Área totalmente declarada. A soma corresponde exatamente à área total do imóvel.
+      </div>
+
+      <!-- OBSERVAÇÕES -->
+      <div style="margin-top:22px;">
+        <div class="field-group">
+          <label>Observações adicionais <span class="opcional">(opcional)</span></label>
+          <textarea id="obs" rows="3" placeholder="Descreva particularidades da terra, restrições ambientais, benfeitorias relevantes, etc." style="resize:vertical;"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn btn-secondary" onclick="irPara(2)">← Anterior</button>
+    <button class="btn btn-primary" onclick="irPara(4)">Revisar e Assinar →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- STEP 4 — REVISÃO E ASSINATURA -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="step-content" id="step-4">
+
+  <!-- Sucesso após envio -->
+  <div class="sucesso-banner" id="sucesso-banner">
+    <div class="sucesso-icon">✅</div>
+    <div class="sucesso-titulo">Declaração Registrada com Sucesso!</div>
+    <div class="sucesso-desc">Sua declaração de aptidão agrícola foi protocolada na SERM/SEMEC.</div>
+    <div class="protocolo-box">
+      Número de Protocolo: <span class="protocolo-num" id="protocolo-num"></span><br>
+      <span style="font-size:11px;opacity:0.75;">Guarde este número para consultas futuras.</span>
+    </div>
+  </div>
+
+  <!-- Preview da declaração -->
+  <div id="preview-section">
+    <div class="preview-header">
+      <div class="preview-brasao">🌿</div>
+      <div class="preview-orgao">Prefeitura Municipal de Porto Velho · Secretaria Municipal de Economia · SERM</div>
+      <div class="preview-titulo">DECLARAÇÃO DE APTIDÃO AGRÍCOLA</div>
+      <div class="preview-subtitulo">ITBI — Imóvel Rural | Porto Velho / RO</div>
+    </div>
+
+    <div class="preview-body" id="preview-body">
+      <!-- preenchido via JS -->
+    </div>
+
+    <div class="preview-penas">
+      <strong>Responsabilidade civil e penal:</strong> O declarante assume inteira responsabilidade pelas informações prestadas neste documento, submetendo-se às sanções previstas no art. 299 do Código Penal Brasileiro (falsidade ideológica), bem como às penalidades administrativas estipuladas na Lei Complementar Municipal nº 878/2021 (Código Tributário Municipal de Porto Velho).
+    </div>
+  </div>
+
+  <!-- Card de revisão -->
+  <div class="section-card" id="card-revisao">
+    <div class="section-header"><span class="icon">📄</span> Revisão e Assinatura da Declaração</div>
+    <div class="section-body">
+
+      <div class="declaracao-texto" id="texto-declaracao">
+        <!-- gerado via JS -->
+      </div>
+
+      <label class="checkbox-wrap" for="aceite">
+        <input type="checkbox" id="aceite" />
+        <span class="checkbox-label">
+          <strong>Declaro, sob as penas da lei</strong>, que as informações prestadas neste formulário são verdadeiras e que a aptidão agrícola descrita corresponde à real condição do imóvel. Estou ciente de que a prestação de informações falsas configura infração punível na forma da lei.
+        </span>
+      </label>
+
+      <div style="margin-top:16px;background:var(--cinza-leve);border:1px solid var(--borda);border-radius:4px;padding:14px 18px;font-size:12.5px;color:var(--cinza-meio);">
+        📅 Data da declaração: <strong id="data-declaracao"></strong> &nbsp;|&nbsp; 🌐 Origem: Portal SEMEC / Porto Velho-RO
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-buttons" id="nav-step4">
+    <button class="btn btn-secondary" onclick="irPara(3)">← Anterior</button>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-print" id="btn-pdf" onclick="imprimirDeclaracao()" disabled>🖨 Gerar PDF</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── ESTADO ───────────────────────────────────────────────
+let passoAtual = 1;
+const TOTAL_PASSOS = 4;
+
+// ─── FORMATAÇÃO DE CPF ────────────────────────────────────
+function formatarCPF(v) {
+  v = v.replace(/\D/g,'').slice(0,11);
+  if (v.length <= 3) return v;
+  if (v.length <= 6) return v.slice(0,3)+'.'+v.slice(3);
+  if (v.length <= 9) return v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+  return v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+}
+document.getElementById('cpf').addEventListener('input', function(){ this.value = formatarCPF(this.value); });
+document.getElementById('cpf-conjuge').addEventListener('input', function(){ this.value = formatarCPF(this.value); });
+
+// ─── MOSTRAR/OCULTAR CÔNJUGE ─────────────────────────────
+document.getElementById('estado-civil').addEventListener('change', function() {
+  const mostrar = ['Casado(a)','União estável'].includes(this.value);
+  document.getElementById('secao-conjuge').style.display = mostrar ? 'block' : 'none';
+});
+
+// ─── TOTALIZADOR DE APTIDÃO ──────────────────────────────
+function atualizarTotal() {
+  const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
+  let soma = 0;
+  document.querySelectorAll('.aptidao-campo').forEach(el => {
+    soma += parseFloat(el.value) || 0;
+  });
+
+  // Arredonda para 4 casas para evitar erros de ponto flutuante
+  soma = Math.round(soma * 10000) / 10000;
+  const diff = Math.round((soma - areaTotal) * 10000) / 10000;
+  const igual = Math.abs(diff) < 0.0001;
+
+  document.getElementById('tot-declarado').textContent = soma.toFixed(4)+' ha';
+
+  const totEl = document.getElementById('tot-imovel');
+  const saldoEl = document.getElementById('tot-saldo');
+  const pctEl = document.getElementById('tot-pct');
+  const alertaExc  = document.getElementById('alerta-excede');
+  const alertaInc  = document.getElementById('alerta-incompleto');
+  const alertaVazia = document.getElementById('alerta-vazia');
+  const alertaOk   = document.getElementById('alerta-ok');
+
+  // Ocultar todos os alertas
+  alertaExc.classList.remove('show');
+  alertaInc.classList.remove('show');
+  alertaVazia.classList.remove('show');
+  alertaOk.style.display = 'none';
+
+  if (areaTotal > 0) {
+    totEl.textContent = areaTotal.toFixed(4)+' ha';
+    saldoEl.textContent = (diff >= 0 ? '+' : '') + diff.toFixed(4)+' ha';
+    saldoEl.className = 'total-valor' + (!igual ? ' erro-valor' : '');
+    const pct = (soma/areaTotal*100).toFixed(1);
+    pctEl.textContent = pct+'% declarado';
+
+    if (soma === 0) {
+      alertaVazia.classList.add('show');
+    } else if (diff > 0.0001) {
+      document.getElementById('soma-excede').textContent = soma.toFixed(4);
+      document.getElementById('total-excede').textContent = areaTotal.toFixed(4);
+      alertaExc.classList.add('show');
+    } else if (diff < -0.0001) {
+      document.getElementById('soma-incompleto').textContent = soma.toFixed(4);
+      document.getElementById('total-incompleto').textContent = areaTotal.toFixed(4);
+      alertaInc.classList.add('show');
+    } else {
+      // Igual — confirmar
+      alertaOk.style.display = 'block';
+      saldoEl.className = 'total-valor';
+      saldoEl.style.color = 'var(--sucesso)';
+    }
+  } else {
+    totEl.textContent = '— ha';
+    saldoEl.textContent = '— ha';
+    pctEl.textContent = '';
+  }
+}
+
+document.querySelectorAll('.aptidao-campo').forEach(el => el.addEventListener('input', atualizarTotal));
+document.getElementById('area-total').addEventListener('input', atualizarTotal);
+
+// ─── VALIDAÇÃO POR PASSO ──────────────────────────────────
+function mostrarErro(id, visivel) {
+  const el = document.getElementById('err-'+id);
+  const inp = document.getElementById(id);
+  if (el) el.classList.toggle('show', visivel);
+  if (inp) inp.classList.toggle('invalid', visivel);
+}
+
+function validarPasso(n) {
+  let ok = true;
+  if (n === 1) {
+    const campos = ['nome','cpf','rg','estado-civil','profissao','endereco'];
+    campos.forEach(c => {
+      const v = document.getElementById(c).value.trim();
+      const vazio = !v;
+      mostrarErro(c, vazio);
+      if (vazio) ok = false;
+    });
+    // Cônjuge
+    const ec = document.getElementById('estado-civil').value;
+    if (['Casado(a)','União estável'].includes(ec)) {
+      ['nome-conjuge','cpf-conjuge','rg-conjuge'].forEach(c => {
+        const el = document.getElementById(c);
+        if (!el.value.trim()) { el.style.borderColor='var(--erro)'; ok = false; }
+        else el.style.borderColor='';
+      });
+    }
+  }
+  if (n === 2) {
+    const campos = ['matricula','cartorio','loc-imovel','area-total'];
+    campos.forEach(c => {
+      const v = document.getElementById(c).value.trim();
+      const vazio = !v || (c==='area-total' && parseFloat(v) <= 0);
+      mostrarErro(c, vazio);
+      if (vazio) ok = false;
+    });
+  }
+  if (n === 3) {
+    const areaTotal = parseFloat(document.getElementById('area-total').value) || 0;
+    let soma = 0;
+    document.querySelectorAll('.aptidao-campo').forEach(el => soma += parseFloat(el.value)||0);
+    soma = Math.round(soma * 10000) / 10000;
+    const diff = Math.abs(soma - areaTotal);
+
+    if (soma === 0) {
+      document.getElementById('alerta-vazia').classList.add('show');
+      ok = false;
+    } else if (diff >= 0.0001) {
+      // Força exibição do alerta correto acionando a função
+      atualizarTotal();
+      ok = false;
+    }
+  }
+  return ok;
+}
+
+// ─── NAVEGAÇÃO ────────────────────────────────────────────
+function irPara(n) {
+  if (n > passoAtual && !validarPasso(passoAtual)) return;
+
+  document.getElementById('step-'+passoAtual).classList.remove('active');
+  document.getElementById('tab-'+passoAtual).classList.remove('active');
+  if (n > passoAtual) document.getElementById('tab-'+passoAtual).classList.add('done');
+  else document.getElementById('tab-'+passoAtual).classList.remove('done');
+
+  passoAtual = n;
+  document.getElementById('step-'+passoAtual).classList.add('active');
+  document.getElementById('tab-'+passoAtual).classList.add('active');
+  document.getElementById('progressBar').style.width = ((passoAtual-1)/(TOTAL_PASSOS-1)*100)+'%';
+
+  if (passoAtual === 4) gerarPreview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── GERAÇÃO DO PREVIEW ───────────────────────────────────
+function gerarPreview() {
+  const nome = document.getElementById('nome').value;
+  const cpf  = document.getElementById('cpf').value;
+  const rg   = document.getElementById('rg').value;
+  const ec   = document.getElementById('estado-civil').value;
+  const prof = document.getElementById('profissao').value;
+  const end  = document.getElementById('endereco').value;
+  const mat  = document.getElementById('matricula').value;
+  const cart = document.getElementById('cartorio').value;
+  const loc  = document.getElementById('loc-imovel').value;
+  const areaTotal = parseFloat(document.getElementById('area-total').value)||0;
+  const nomeIm = document.getElementById('nome-imovel').value;
+  const ccir   = document.getElementById('ccir').value;
+  const nirf   = document.getElementById('nirf').value;
+  const obs    = document.getElementById('obs').value;
+
+  const conjuge = ['Casado(a)','União estável'].includes(ec)
+    ? `, e seu cônjuge <strong>${document.getElementById('nome-conjuge').value || '___'}</strong>, CPF ${document.getElementById('cpf-conjuge').value || '___'}, RG ${document.getElementById('rg-conjuge').value || '___'}`
+    : '';
+
+  const hoje = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('data-declaracao').textContent = hoje;
+
+  // Linhas da tabela de aptidão
+  const labels = [
+    'Lavoura — Aptidão Boa',
+    'Lavoura — Aptidão Regular',
+    'Lavoura — Aptidão Restrita',
+    'Pastagem Plantada/Cultivada',
+    'Silvicultura ou Pastagem Natural',
+    'Preservação de Fauna ou Flora'
+  ];
+  let somaTotal = 0;
+  let linhas = '';
+  for (let i = 1; i <= 6; i++) {
+    const v = parseFloat(document.getElementById('a'+i).value) || 0;
+    somaTotal += v;
+    if (v > 0) {
+      linhas += `<tr><td>${labels[i-1]}</td><td style="text-align:right;">${v.toFixed(4)}</td></tr>`;
+    }
+  }
+  linhas += `<tr style="font-weight:700;background:#e8f5ee;"><td>TOTAL DECLARADO</td><td style="text-align:right;">${somaTotal.toFixed(4)}</td></tr>`;
+
+  const body = `
+    <p><strong>${nome}</strong>, ${prof}, ${ec.toLowerCase()}, inscrito no RG sob o nº <strong>${rg}</strong> e CPF sob o nº <strong>${cpf}</strong>${conjuge}, residente e domiciliado à <strong>${end}</strong>, Município de Porto Velho/RO, na qualidade de proprietário do imóvel rural apresentado para emissão de ITBI,</p>
+
+    <p style="margin-top:14px;"><strong>DECLARA</strong>, sob as penas da lei, a aptidão agrícola do imóvel de sua titularidade, caracterizado nos termos seguintes:</p>
+
+    <table class="preview-table" style="margin:20px 0;">
+      <thead><tr><th>Dados Cadastrais do Imóvel</th><th>Informação</th></tr></thead>
+      <tbody>
+        <tr><td>Matrícula</td><td>${mat} — ${cart}</td></tr>
+        ${nomeIm ? `<tr><td>Denominação</td><td>${nomeIm}</td></tr>` : ''}
+        <tr><td>Localização</td><td>${loc}</td></tr>
+        <tr><td>Área Total Registrada</td><td><strong>${areaTotal.toFixed(4)} ha</strong></td></tr>
+        ${ccir ? `<tr><td>CCIR</td><td>${ccir}</td></tr>` : ''}
+        ${nirf ? `<tr><td>NIRF/CAFIR</td><td>${nirf}</td></tr>` : ''}
+      </tbody>
+    </table>
+
+    <p><strong>Aptidão Agrícola Declarada (uso e cobertura do solo):</strong></p>
+    <table class="preview-table">
+      <thead><tr><th>Descrição da Aptidão</th><th style="text-align:right;">Área utilizada (ha)</th></tr></thead>
+      <tbody>${linhas}</tbody>
+    </table>
+
+    ${obs ? `<p><strong>Observações:</strong> ${obs}</p>` : ''}
+
+    <div class="preview-footer">
+      <div class="assinatura-box">
+        <div style="height:50px;"></div>
+        <strong>${nome}</strong><br>CPF ${cpf}<br>Declarante
+      </div>
+      <div class="assinatura-box">
+        <div style="height:50px;"></div>
+        Porto Velho/RO, ${hoje}<br>Local e Data
+      </div>
+    </div>
+  `;
+
+  document.getElementById('texto-declaracao').innerHTML = `
+    <strong>${nome}</strong>, ${prof}, ${ec.toLowerCase()}, CPF ${cpf}, RG ${rg}${conjuge}, residente à ${end}, Porto Velho/RO — responsável pelo imóvel rural objeto da Matrícula nº <strong>${mat}</strong>, ${cart}, medindo <strong>${areaTotal.toFixed(4)} ha</strong>, localizado em ${loc}, <strong>declara, sob as penas da lei</strong>, a aptidão agrícola do imóvel conforme tabela preenchida.
+  `;
+
+  document.getElementById('preview-body').innerHTML = body;
+  document.getElementById('preview-section').classList.add('show');
+
+  // Ativar botão Gerar PDF somente quando aceite for marcado
+  document.getElementById('aceite').addEventListener('change', function() {
+    document.getElementById('btn-pdf').disabled = !this.checked;
+  });
+}
+
+// ─── IMPRESSÃO ────────────────────────────────────────────
+function imprimirDeclaracao() {
+  window.print();
+}
+
+// ─── ENVIO ────────────────────────────────────────────────
+function enviarDeclaracao() {
+  if (!document.getElementById('aceite').checked) return;
+
+  const btn = document.getElementById('btn-enviar');
+  btn.disabled = true;
+  btn.textContent = '⏳ Protocolando...';
+
+  setTimeout(() => {
+    // Gera número de protocolo simulado
+    const prot = 'ITBI-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*99999+1)).padStart(5,'0');
+    document.getElementById('protocolo-num').textContent = prot;
+    document.getElementById('sucesso-banner').classList.add('show');
+    document.getElementById('card-revisao').style.display = 'none';
+    document.getElementById('nav-step4').style.display = 'none';
+    document.getElementById('progressBar').style.width = '100%';
+
+    // Marcar todas as abas como concluídas
+    for (let i=1;i<=4;i++) {
+      document.getElementById('tab-'+i).classList.remove('active');
+      document.getElementById('tab-'+i).classList.add('done');
+    }
+
+    window.scrollTo({top:0,behavior:'smooth'});
+  }, 1800);
+}
+</script>
+</body>
+</html>
