@@ -424,7 +424,6 @@ export default function DeclaracaoITBI() {
                     <option>1º Ofício de Registro de Imóveis</option>
                     <option>2º Ofício de Registro de Imóveis</option>
                     <option>3º Ofício de Registro de Imóveis</option>
-                    <option>4º Ofício de Registro de Imóveis</option>
                   </select>
                   <span className={`field-error ${erros.cartorio ? 'show' : ''}`}>Selecione o cartório.</span>
                 </div>
