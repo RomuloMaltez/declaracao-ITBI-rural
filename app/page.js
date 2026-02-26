@@ -118,13 +118,14 @@ export default function DeclaracaoITBI() {
   // ─── Geração de PDF Profissional ───
   const [gerandoPDF, setGerandoPDF] = useState(false);
 
-  const gerarPDF = async () => {
+  const gerarPDF = async (visualizar = false) => {
     setGerandoPDF(true);
     try {
       const html2pdf = (await import('html2pdf.js')).default;
 
-      // Gerar número de protocolo
+      // Gerar número de protocolo (mantemos internamente para o sistema, se necessário)
       const prot = 'ITBI-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 99999 + 1)).padStart(5, '0');
+      setProtocolo(prot);
 
       // Linhas da tabela de aptidão
       let linhasAptidao = '';
@@ -153,7 +154,6 @@ export default function DeclaracaoITBI() {
             <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.65;">Secretaria Executiva da Receita Municipal — SERM</div>
             <div style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;margin:10px 0 4px;letter-spacing:0.5px;">DECLARAÇÃO DE APTIDÃO AGRÍCOLA</div>
             <div style="font-size:12px;opacity:0.7;">ITBI — Imóvel Rural | Porto Velho / RO</div>
-            <div style="margin-top:10px;display:inline-block;background:#c9973a;color:white;padding:5px 16px;border-radius:3px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">Protocolo: ${prot}</div>
           </div>
 
           <!-- BARRA DOURADA -->
@@ -230,7 +230,7 @@ export default function DeclaracaoITBI() {
 
             <!-- INFORMAÇÕES DO DOCUMENTO -->
             <div style="margin-top:16px;padding:10px 14px;background:#f5f5f3;border:1px solid #d6d6ce;border-radius:4px;font-size:11px;color:#4a4a4a;text-align:center;">
-              📅 Emissão: ${hoje} &nbsp;|&nbsp; 🌐 Portal SEMEC / Porto Velho-RO &nbsp;|&nbsp; 📋 Protocolo: ${prot}
+              📅 Emissão: ${hoje} &nbsp;|&nbsp; 🌐 Portal SEMEC / Porto Velho-RO
             </div>
           </div>
         </div>
@@ -242,17 +242,24 @@ export default function DeclaracaoITBI() {
 
       const nomeArquivo = `Declaracao_Aptidao_Agricola_${form.nome.replace(/\s+/g, '_').substring(0, 30)}_${new Date().toISOString().slice(0, 10)}.pdf`;
 
-      await html2pdf()
-        .set({
-          margin: [10, 10, 10, 10],
-          filename: nomeArquivo,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-        })
-        .from(container.firstElementChild)
-        .save();
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: nomeArquivo,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      };
+
+      if (visualizar) {
+        const pdf = html2pdf().set(opt).from(container.firstElementChild);
+        const pdfBlobUrl = await pdf.outputPdf('bloburl');
+        window.open(pdfBlobUrl, '_blank');
+      } else {
+        await html2pdf().set(opt).from(container.firstElementChild).save();
+        setSucesso(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
       document.body.removeChild(container);
     } catch (err) {
@@ -262,6 +269,7 @@ export default function DeclaracaoITBI() {
       setGerandoPDF(false);
     }
   };
+
 
   // ─── Preview Data ───
   const hoje = formatarData();
@@ -569,12 +577,8 @@ export default function DeclaracaoITBI() {
           {sucesso && (
             <div className="sucesso-banner show">
               <div className="sucesso-icon">✅</div>
-              <div className="sucesso-titulo">Declaração Registrada com Sucesso!</div>
-              <div className="sucesso-desc">Sua declaração de aptidão agrícola foi protocolada na SERM/SEMEC.</div>
-              <div className="protocolo-box">
-                Número de Protocolo: <span className="protocolo-num">{protocolo}</span><br />
-                <span style={{ fontSize: '11px', opacity: 0.75 }}>Guarde este número para consultas futuras.</span>
-              </div>
+              <div className="sucesso-titulo">Declaração Gerada com Sucesso!</div>
+              <div className="sucesso-desc">Sua declaração de aptidão agrícola foi concluída e o download foi iniciado.</div>
             </div>
           )}
 
@@ -668,9 +672,12 @@ export default function DeclaracaoITBI() {
           {!sucesso && (
             <div className="nav-buttons">
               <button className="btn btn-secondary" onClick={() => irPara(3)}>← Anterior</button>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <button className="btn btn-print" onClick={gerarPDF} disabled={!aceite || gerandoPDF}>{gerandoPDF ? '⏳ Gerando PDF...' : '🖨 Gerar PDF'}</button>
-              </div>
+              <button className="btn btn-preview" onClick={() => gerarPDF(true)} disabled={!aceite || gerandoPDF}>
+                {gerandoPDF ? '⏳ Processando...' : '👁 Visualizar PDF'}
+              </button>
+              <button className="btn btn-print" onClick={() => gerarPDF(false)} disabled={!aceite || gerandoPDF}>
+                {gerandoPDF ? '⏳ Gerando...' : '🖨 Gerar PDF'}
+              </button>
             </div>
           )}
         </div>
